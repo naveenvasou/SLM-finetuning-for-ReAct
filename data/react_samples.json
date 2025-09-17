@@ -1,0 +1,79 @@
+[
+  {
+    "question": "What is 15 multiplied by 7?",
+    "thought": "This is a multiplication problem, so I should use a calculator.",
+    "action": "Calculator[15 * 7]",
+    "observation": "105",
+    "final_answer": "105"
+  },
+  {
+    "question": "Who is the current Prime Minister of the United Kingdom?",
+    "thought": "I need to look this up since it's factual and can change over time.",
+    "action": "Search['current Prime Minister of the United Kingdom']",
+    "observation": "Rishi Sunak",
+    "final_answer": "Rishi Sunak"
+  },
+  {
+    "question": "What is the capital city of Canada?",
+    "thought": "This is a geography fact, I should retrieve it.",
+    "action": "Search['capital of Canada']",
+    "observation": "Ottawa",
+    "final_answer": "Ottawa"
+  },
+  {
+    "question": "If a book costs $12 and I buy 4 copies, how much do I spend?",
+    "thought": "I should calculate cost = price × quantity.",
+    "action": "Calculator[12 * 4]",
+    "observation": "48",
+    "final_answer": "$48"
+  },
+  {
+    "question": "What is my favorite programming language?",
+    "thought": "I need to recall the stored memory for favorite programming language.",
+    "action": "Memory['favorite programming language']",
+    "observation": "Python",
+    "final_answer": "Python"
+  },
+  {
+    "question": "What is the square root of 169?",
+    "thought": "This is a square root calculation.",
+    "action": "Calculator[sqrt(169)]",
+    "observation": "13",
+    "final_answer": "13"
+  },
+  {
+    "question": "Is a dolphin a mammal?",
+    "thought": "I need to check the biological category of a dolphin.",
+    "action": "Search['Is dolphin a mammal?']",
+    "observation": "Yes, dolphin is a mammal.",
+    "final_answer": "Yes"
+  },
+  {
+    "question": "How many hours are there in 5 days?",
+    "thought": "One day has 24 hours, so I should multiply.",
+    "action": "Calculator[5 * 24]",
+    "observation": "120",
+    "final_answer": "120 hours"
+  },
+  {
+    "question": "Who painted the Mona Lisa?",
+    "thought": "This is an art history fact I should look up.",
+    "action": "Search['Mona Lisa painter']",
+    "observation": "Leonardo da Vinci",
+    "final_answer": "Leonardo da Vinci"
+  },
+  {
+    "question": "If today is Wednesday, what day will it be 10 days later?",
+    "thought": "I need to compute (10 mod 7) to see how many days ahead it shifts.",
+    "action": "Calculator[10 mod 7]",
+    "observation": "3",
+    "final_answer": "Saturday"
+  },
+   {
+    "question": "If today is Wednesday, what day will it be 10 days later?",
+    "thought": "I need to compute (10 mod 7) to see how many days ahead it shifts.",
+    "action": "Calculator[10 mod 7]",
+    "observation": "3",
+    "final_answer": "Saturday"
+  }
+]
