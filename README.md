@@ -14,6 +14,46 @@ This project explores how to **fine-tune a Small Language Model (SLM)** using **
   - Memory retrieval with embeddings
 - Evaluation of reasoning quality, success rate, and tool-use efficiency.
 
+## Getting Started
+
+Follow these steps to set up the project locally.
+
+### Requirements
+
+- **Python version:** 3.10 or above
+
+### Setup Instructions
+
+1. **Clone the repository**
+
+   ```bash
+   git clone https://github.com/naveenvasou/agentic-sales-pipeline.git
+   cd agentic-sales-pipeline
+   ```
+
+2. **Create a virtual environment**
+
+   ```bash
+   python -m venv .venv
+   ```
+
+3. **Activate the environment**
+
+   - On Linux / macOS:
+     ```bash
+     source .venv/bin/activate
+     ```
+   - On Windows (PowerShell):
+     ```bash
+     .venv\Scripts\Activate.ps1
+     ```
+
+4. **Install dependencies**
+
+   ```bash
+   pip install -r requirements.txt
+   ```
+
 ---
 
 ## 🤝 Contributions
