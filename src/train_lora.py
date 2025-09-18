@@ -116,18 +116,18 @@ checkpoint_dir = "./checkpoints"
 os.makedirs(checkpoint_dir, exist_ok=True)
 lora_model.train()
 num_training_steps = NUM_EPOCHS * len(train_dataloader)
-lr_scheduler = get_linear_schedule_with_warmup(
-    optimizer=optimizer,
-    num_warmup_steps=SCHEDULER_WARMUP_STEPS,
-    num_training_steps=num_training_steps,
-)
+#lr_scheduler = get_linear_schedule_with_warmup(
+#    optimizer=optimizer,
+#    num_warmup_steps=SCHEDULER_WARMUP_STEPS,
+#    num_training_steps=num_training_steps,
+#)
 
 best_val_loss = float("inf")
 best_model_path = os.path.join("./lora-finetuned-model", "best_model")
 
 for epoch in range(NUM_EPOCHS):
     logger.info(f"\n--- Epoch {epoch + 1}/{NUM_EPOCHS} ---")
-    print(f"\n--- Epoch {epoch + 1}/{NUM_EPOCHS} ---")
+    print(f"\n--- Epoch {epoch + 1}/{NUM_EPOCHS} ---\n")
     total_train_loss = 0
     train_progress_bar = tqdm(train_dataloader, desc=f"Epoch {epoch + 1} Training")
     
@@ -136,40 +136,28 @@ for epoch in range(NUM_EPOCHS):
         
         batch = {k: v.to(lora_model.device) for k, v in batch.items()}
         ### FORWARD PASS ###
-        print("### FORWARD PASS ###")
-        logger.info("### FORWARD PASS ###")
         outputs = lora_model(**batch)
         ### LOSS COMPUTATION ###
-        print("### LOSS COMPUTATION ###")
-        logger.info("### LOSS COMPUTATION ###")
         loss = outputs.loss
         ### BACKPROPAGATION ###
-        print("### BACKPROPAGATION ###")
-        logger.info("### BACKPROPAGATION ###")
         loss.backward()
         ### GRADIENT CLIPPING ###
-        print("### GRADIENT CLIPPING ###")
-        logger.info("### GRADIENT CLIPPING ###")
         torch.nn.utils.clip_grad_norm_(lora_model.parameters(), GRADIENT_CLIP_VAL)
         ### OPTIMIZER ###
-        print("### OPTIMIZER ###")
-        logger.info("### OPTIMIZER ###")
         optimizer.step()
         ### SCHEDULER ###
-        print("### SCHEDULER ###")
-        logger.info("### SCHEDULER ###")
-        lr_scheduler.step()
+        #lr_scheduler.step()
         
         train_progress_bar.set_postfix({"loss": loss.item()})
         total_train_loss += loss.item()
     
     avg_loss = total_train_loss / len(train_dataloader)
-    print(f"  Average Loss for Epoch {epoch + 1}: {avg_loss:.4f}")
-    logger.info(f"  Average Loss for Epoch {epoch + 1}: {avg_loss:.4f}")
+    print(f"\n  Average Loss for Epoch {epoch + 1}: {avg_loss:.4f}")
+    logger.info(f"\n  Average Loss for Epoch {epoch + 1}: {avg_loss:.4f}")
     
     checkpoint_path = os.path.join(checkpoint_dir, f"epoch_{epoch+1}")
     lora_model.save_pretrained(checkpoint_path)
-    logger.info(f"✅ LoRA adapter checkpoint saved to {checkpoint_path}")
+    logger.info(f"\n LoRA adapter checkpoint saved to {checkpoint_path}")
     
     ### EVALUATION  LOOP ###
     lora_model.eval()
@@ -180,8 +168,8 @@ for epoch in range(NUM_EPOCHS):
             outputs = lora_model(**batch)
             total_val_loss += outputs.loss.item()
     avg_val_loss = total_val_loss / len(val_dataloader)
-    print(f"  Average Validation Loss: {avg_val_loss:.4f}")
-    logger.info(f"  Average Validation Loss: {avg_val_loss:.4f}")
+    print(f"\n  Average Validation Loss: {avg_val_loss:.4f}")
+    logger.info(f"\n  Average Validation Loss: {avg_val_loss:.4f}")
     
     ####### TRAINING LOOP ##########
     if avg_val_loss < best_val_loss:
@@ -191,5 +179,5 @@ for epoch in range(NUM_EPOCHS):
     
     
 print("\n✅ Training Complete!")
-logger("\n✅ Training Complete!")
+logger.info("\n✅ Training Complete!")
 
