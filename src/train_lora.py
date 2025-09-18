@@ -36,7 +36,6 @@ VALIDATION_SIZE = config["data_params"]["validation_split_size"]
 ####### LOADING MODEL AND TOKENIZER ##########
 print("####### LOADING MODEL AND TOKENIZER ##########")
 logger.info("Loading base model: " + MODEL_NAME)
-model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
 
 model = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
