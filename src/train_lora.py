@@ -34,7 +34,7 @@ GRADIENT_CLIP_VAL = config["training_params"]["gradient_clip_val"]
 VALIDATION_SIZE = config["data_params"]["validation_split_size"]
 
 ####### LOADING MODEL AND TOKENIZER ##########
-    
+print("####### LOADING MODEL AND TOKENIZER ##########")
 logger.info("Loading base model: " + MODEL_NAME)
 model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
 bnb_config = BitsAndBytesConfig(
@@ -57,7 +57,7 @@ tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, trust_remote_code=True)
 tokenizer.pad_token = tokenizer.eos_token
 tokenizer.padding_side = "right"
 logger.info("Instantiated the tokenizer")
-
+print("####### INSTANTIATED MODEL AND TOKENIZER ##########")
 
 ####### Load the react_samples.json file ##########
 
@@ -70,7 +70,7 @@ train_dataset = split_dataset["train"]
 val_dataset = split_dataset["test"]
 
 ####### Prepare data for causal language modeling #######
-
+print("####### Prepare data for causal language modeling ##########")
 def format_and_tokenize(example):
     formatted_prompt = (
         f"Question: {example['question']}\nThought: {example['thought']}\n"
@@ -87,6 +87,7 @@ tokenized_train_dataset = train_dataset.map(format_and_tokenize, remove_columns=
 tokenized_val_dataset = val_dataset.map(format_and_tokenize, remove_columns=val_dataset.column_names)
 
 logger.info("Data Loaded and Tokenized")
+print("####### Data Loaded and Tokenized ##########")
 
 
 ####### CONFIGURING LORA ##########    
@@ -121,12 +122,12 @@ lr_scheduler = get_linear_schedule_with_warmup(
     num_training_steps=num_training_steps,
 )
 
-### BEST MODEL TARACKING ###
 best_val_loss = float("inf")
 best_model_path = os.path.join("./lora-finetuned-model", "best_model")
 
 for epoch in range(NUM_EPOCHS):
     logger.info(f"\n--- Epoch {epoch + 1}/{NUM_EPOCHS} ---")
+    print(f"\n--- Epoch {epoch + 1}/{NUM_EPOCHS} ---")
     total_train_loss = 0
     train_progress_bar = tqdm(train_dataloader, desc=f"Epoch {epoch + 1} Training")
     
@@ -135,18 +136,28 @@ for epoch in range(NUM_EPOCHS):
         
         batch = {k: v.to(lora_model.device) for k, v in batch.items()}
         ### FORWARD PASS ###
-        print("Attention Mask Shape:", batch['attention_mask'].shape)
-        logger.info(f"Attention Mask Shape: {batch['attention_mask'].shape}")
+        print("### FORWARD PASS ###")
+        logger.info("### FORWARD PASS ###")
         outputs = lora_model(**batch)
         ### LOSS COMPUTATION ###
+        print("### LOSS COMPUTATION ###")
+        logger.info("### LOSS COMPUTATION ###")
         loss = outputs.loss
         ### BACKPROPAGATION ###
+        print("### BACKPROPAGATION ###")
+        logger.info("### BACKPROPAGATION ###")
         loss.backward()
         ### GRADIENT CLIPPING ###
+        print("### GRADIENT CLIPPING ###")
+        logger.info("### GRADIENT CLIPPING ###")
         torch.nn.utils.clip_grad_norm_(lora_model.parameters(), GRADIENT_CLIP_VAL)
         ### OPTIMIZER ###
+        print("### OPTIMIZER ###")
+        logger.info("### OPTIMIZER ###")
         optimizer.step()
         ### SCHEDULER ###
+        print("### SCHEDULER ###")
+        logger.info("### SCHEDULER ###")
         lr_scheduler.step()
         
         train_progress_bar.set_postfix({"loss": loss.item()})
