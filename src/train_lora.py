@@ -37,20 +37,14 @@ VALIDATION_SIZE = config["data_params"]["validation_split_size"]
 print("####### LOADING MODEL AND TOKENIZER ##########")
 logger.info("Loading base model: " + MODEL_NAME)
 model = AutoModelForCausalLM.from_pretrained(MODEL_NAME)
-bnb_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=torch.bfloat16,
-        bnb_4bit_use_double_quant=True,
-)
+
 model = AutoModelForCausalLM.from_pretrained(
         MODEL_NAME,
-        quantization_config=bnb_config,
-        device_map="auto",
         trust_remote_code=True,
         attn_implementation='eager'
 )
 model.config.use_cache = False
+
 logger.info("Instantiated the model")
 logger.info("Loading tokenizer for base model")
 tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, trust_remote_code=True)
@@ -116,11 +110,11 @@ checkpoint_dir = "./checkpoints"
 os.makedirs(checkpoint_dir, exist_ok=True)
 lora_model.train()
 num_training_steps = NUM_EPOCHS * len(train_dataloader)
-#lr_scheduler = get_linear_schedule_with_warmup(
-#    optimizer=optimizer,
-#    num_warmup_steps=SCHEDULER_WARMUP_STEPS,
-#    num_training_steps=num_training_steps,
-#)
+lr_scheduler = get_linear_schedule_with_warmup(
+    optimizer=optimizer,
+    num_warmup_steps=SCHEDULER_WARMUP_STEPS,
+    num_training_steps=num_training_steps,
+)
 
 best_val_loss = float("inf")
 best_model_path = os.path.join("./lora-finetuned-model", "best_model")
@@ -135,10 +129,12 @@ for epoch in range(NUM_EPOCHS):
         optimizer.zero_grad()
         
         batch = {k: v.to(lora_model.device) for k, v in batch.items()}
+        
         ### FORWARD PASS ###
         outputs = lora_model(**batch)
         ### LOSS COMPUTATION ###
         loss = outputs.loss
+
         ### BACKPROPAGATION ###
         loss.backward()
         ### GRADIENT CLIPPING ###
@@ -146,11 +142,11 @@ for epoch in range(NUM_EPOCHS):
         ### OPTIMIZER ###
         optimizer.step()
         ### SCHEDULER ###
-        #lr_scheduler.step()
+        lr_scheduler.step()
         
         train_progress_bar.set_postfix({"loss": loss.item()})
         total_train_loss += loss.item()
-    
+
     avg_loss = total_train_loss / len(train_dataloader)
     print(f"\n  Average Loss for Epoch {epoch + 1}: {avg_loss:.4f}")
     logger.info(f"\n  Average Loss for Epoch {epoch + 1}: {avg_loss:.4f}")

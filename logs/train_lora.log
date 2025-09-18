@@ -1,0 +1,21 @@
+2025-09-18 23:51:32 - INFO - train_lora.py:55 - Instantiated the model
+2025-09-18 23:51:32 - INFO - train_lora.py:56 - Loading tokenizer for base model
+2025-09-18 23:51:35 - INFO - train_lora.py:60 - Instantiated the tokenizer
+2025-09-18 23:51:37 - INFO - train_lora.py:90 - Data Loaded and Tokenized
+2025-09-18 23:51:37 - INFO - train_lora.py:130 - 
+--- Epoch 1/3 ---
+2025-09-18 23:52:16 - INFO - train_lora.py:55 - Instantiated the model
+2025-09-18 23:52:16 - INFO - train_lora.py:56 - Loading tokenizer for base model
+2025-09-18 23:52:19 - INFO - train_lora.py:60 - Instantiated the tokenizer
+2025-09-18 23:52:20 - INFO - train_lora.py:90 - Data Loaded and Tokenized
+2025-09-18 23:52:20 - INFO - train_lora.py:130 - 
+--- Epoch 1/3 ---
+2025-09-18 23:55:18 - INFO - train_lora.py:38 - Loading base model: google/gemma-3-270m
+2025-09-18 23:55:24 - WARNING - cextension.py:295 - The 8-bit optimizer is not available on your device, only available on CUDA for now.
+2025-09-18 23:55:42 - INFO - train_lora.py:55 - Instantiated the model
+2025-09-18 23:55:42 - INFO - train_lora.py:56 - Loading tokenizer for base model
+2025-09-18 23:55:45 - INFO - train_lora.py:60 - Instantiated the tokenizer
+2025-09-18 23:55:47 - INFO - train_lora.py:90 - Data Loaded and Tokenized
+2025-09-18 23:55:47 - INFO - train_lora.py:99 - lora model created. Trainable Parameters: None
+2025-09-18 23:55:47 - INFO - train_lora.py:130 - 
+--- Epoch 1/3 ---
