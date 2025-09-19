@@ -7,6 +7,8 @@ from glob import glob
 import re
 import argparse
 import torch
+import torch._dynamo
+torch._dynamo.config.suppress_errors = True
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
