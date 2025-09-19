@@ -38,7 +38,7 @@ def load_model_and_tokenizer(model_name):
             attn_implementation='eager'
     )
     model.config.use_cache = False
-
+    
     logger.info("Instantiated the model")
     logger.info("Loading tokenizer for base model")
     tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
@@ -83,6 +83,8 @@ def prepare_dataset(data_path, validation_size, tokenizer):
 def setup_lora(model, lora_params):
     config = LoraConfig(**lora_params)
     lora_model = get_peft_model(model, config)
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    lora_model.to(device)
     logger.info("lora model created. Trainable Parameters: "+str(lora_model.print_trainable_parameters()) )
     return lora_model
 
