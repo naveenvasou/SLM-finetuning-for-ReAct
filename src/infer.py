@@ -6,6 +6,7 @@ import os
 from glob import glob
 import re
 import argparse
+import torch
 
 logging.basicConfig(level=logging.INFO,
                     format='%(asctime)s - %(levelname)s - %(filename)s:%(lineno)d - %(message)s',
@@ -30,6 +31,8 @@ def load_model_and_tokenizer(lora_checkpoint_path):
     LoRA_adapter_checkpoint = lora_checkpoint_path
     model = PeftModel.from_pretrained(model, LoRA_adapter_checkpoint)
     model = model.merge_and_unload()
+    device = "cuda" if torch.cuda.is_available() else "cpu"
+    model.to(device)
 
     tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
