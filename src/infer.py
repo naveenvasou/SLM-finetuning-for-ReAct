@@ -1,4 +1,3 @@
-
 import json
 from transformers import AutoTokenizer, AutoModelForCausalLM
 from peft import PeftModel
@@ -43,7 +42,7 @@ def generate_response(prompt: str, max_new_tokens: str = 128) -> str:
         lora_checkpoint_path = "./lora-finetuned-model/best_model/"
     else:
         lora_checkpoint_path = sorted(glob("./checkpoints/epoch_*"))[-1]
-    logger.info("Loading model and tokenizer")
+    logger.info(f"Loading model and tokenizer from {lora_checkpoint_path}")
     model, tokenizer = load_model_and_tokenizer(lora_checkpoint_path)
     inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
     logger.info("Generating text...")
