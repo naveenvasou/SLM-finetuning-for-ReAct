@@ -31,9 +31,9 @@ def load_config(config_path="configs/config.json"):
 ####### LOADING MODEL AND TOKENIZER ##########
 def load_model_and_tokenizer(model_name):
     print("####### LOADING MODEL AND TOKENIZER ##########")
-    logger.info("Loading base model: " + MODEL_NAME)
+    logger.info("Loading base model: " + model_name)
     model = AutoModelForCausalLM.from_pretrained(
-            MODEL_NAME,
+            model_name,
             trust_remote_code=True,
             attn_implementation='eager'
     )
@@ -41,7 +41,7 @@ def load_model_and_tokenizer(model_name):
 
     logger.info("Instantiated the model")
     logger.info("Loading tokenizer for base model")
-    tokenizer = AutoTokenizer.from_pretrained(MODEL_NAME, trust_remote_code=True)
+    tokenizer = AutoTokenizer.from_pretrained(model_name, trust_remote_code=True)
     tokenizer.pad_token = tokenizer.eos_token
     tokenizer.padding_side = "right"
     logger.info("Instantiated the tokenizer")
